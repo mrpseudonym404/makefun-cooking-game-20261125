@@ -75,12 +75,19 @@ export function stageShot(name) {
     state.bowl = { toppings: ['cendol', 'kacang', 'nangka', 'kelapa'], ice: true, iceAnim: 1, syrup: 'stroberi', pour: 1 };
     return { state, screen: SCREEN_PLAY, camera: { scale: 1.2, cx: 850, cy: 380 } };
   }
-  state.score = 1250;
-  state.combo = 3;
-  state.served = 4;
-  state.timeLeft = 47;
-  state.elapsed = 25;
-  state.level = 2;
+  // Cover, revised to Musryk's moment gate: the timer is 0:03 and the biggest
+  // thing in the frame, the ice has spilled on the counter, the score shrinks
+  // to a whisper and the combo is gone — nothing leaks the outcome, so the
+  // frame reads as a question (will the bowl make it in time?), not an answer.
+  state.score = 0;
+  state.combo = 0;
+  state.served = 0;
+  state.timeLeft = 3;
+  state.elapsed = 87;
+  state.level = 1;
+  state.tickets[0] = ticket(['cendol', 'kacang', 'nangka'], 'stroberi', 3, 40);
   state.bowl = { toppings: ['cendol', 'kacang'], ice: true, iceAnim: 1, syrup: 'stroberi', pour: 0.55 };
+  state.spill = true;
+  state.cover = true;
   return { state, screen: SCREEN_PLAY, camera: { scale: 1, cx: 640, cy: 360 } };
 }

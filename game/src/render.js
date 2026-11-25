@@ -144,6 +144,23 @@ export function createRenderer(canvas) {
   }
 
   function drawHud(state) {
+    if (state.cover) {
+      // Cover only: the timer is the biggest thing in the frame and the score
+      // shrinks to a whisper, so the frame asks a question instead of leaking
+      // an answer. No combo pill on the cover at all.
+      text('SKOR', 24, 96, 16, PALETTE.muted, 'left', '700');
+      text(String(state.score), 24, 122, 26, PALETTE.text, 'left', '800');
+      context.save();
+      context.shadowColor = 'rgba(224, 49, 49, 0.55)';
+      context.shadowBlur = 30;
+      pill(884, 76, 372, 168, 18, PALETTE.timerPill);
+      context.restore();
+      text(formatClock(state.timeLeft), 1070, 200, 128, PALETTE.timerLow, 'center', '800');
+      const barWidth = 372 * Math.max(0, state.timeLeft / SHIFT_SECONDS);
+      context.fillStyle = PALETTE.timerLow;
+      context.fillRect(884, 252, barWidth, 10);
+      return;
+    }
     text('SKOR', 24, 100, 18, PALETTE.muted, 'left', '700');
     text(String(state.score), 24, 132, 40, PALETTE.text, 'left', '800');
     if (state.combo >= 2) {
@@ -463,6 +480,57 @@ export function createRenderer(canvas) {
     }
   }
 
+  /**
+   * Spilled ice on the counter, right below the bowl: a puddle, scattered
+   * lumps and a few toppings that missed the glass. Cover only.
+   */
+  function drawSpill() {
+    context.fillStyle = 'rgba(200, 230, 255, 0.7)';
+    context.beginPath();
+    context.ellipse(585, 598, 132, 24, 0, 0, Math.PI * 2);
+    context.fill();
+    context.fillStyle = 'rgba(165, 216, 255, 0.55)';
+    context.beginPath();
+    context.ellipse(660, 610, 62, 14, 0.2, 0, Math.PI * 2);
+    context.fill();
+    context.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    context.beginPath();
+    context.ellipse(556, 590, 68, 11, 0, 0, Math.PI * 2);
+    context.fill();
+    const lumps = [
+      { x: 498, y: 578, r: 19 },
+      { x: 544, y: 616, r: 24 },
+      { x: 600, y: 570, r: 16 },
+      { x: 646, y: 608, r: 21 },
+      { x: 694, y: 578, r: 14 },
+      { x: 520, y: 596, r: 12 },
+      { x: 578, y: 622, r: 11 },
+    ];
+    for (const lump of lumps) {
+      context.fillStyle = 'rgba(165, 216, 255, 0.6)';
+      context.beginPath();
+      context.ellipse(lump.x, lump.y + lump.r * 0.5, lump.r, lump.r * 0.4, 0, 0, Math.PI * 2);
+      context.fill();
+      circle(lump.x, lump.y, lump.r, PALETTE.ice);
+      context.globalAlpha = 0.5;
+      circle(lump.x - lump.r * 0.25, lump.y - lump.r * 0.25, lump.r * 0.55, '#ffffff');
+      context.globalAlpha = 1;
+    }
+    context.strokeStyle = '#69db7c';
+    context.lineWidth = 7;
+    context.lineCap = 'round';
+    context.beginPath();
+    context.moveTo(560, 624);
+    context.lineTo(578, 634);
+    context.moveTo(590, 630);
+    context.lineTo(608, 622);
+    context.moveTo(620, 634);
+    context.lineTo(634, 626);
+    context.stroke();
+    circle(668, 626, 9, '#e03131');
+    circle(644, 632, 8, '#343a40');
+  }
+
   function drawCounter() {
     const gradient = context.createLinearGradient(0, LAYOUT.counterTop, 0, FIELD.height);
     gradient.addColorStop(0, PALETTE.counterTop);
@@ -570,6 +638,7 @@ export function createRenderer(canvas) {
     drawShaver();
     drawSyrupBottles();
     drawBowl(LAYOUT.bowl.x, LAYOUT.bowl.y, LAYOUT.bowl.width, state.bowl);
+    if (state.spill) drawSpill();
     drawTray(state);
     drawServeButton(state);
     drawAwning();
