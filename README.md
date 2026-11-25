@@ -1,8 +1,8 @@
 # Es Campur Rush
 
 [![make.fun bounty](https://make.fun/badge/best-cooking-game-20261125-0137.svg)](https://make.fun/bounty/best-cooking-game-20261125-0137)
-[![rank](https://make.fun/badge/mrpseudonym404/makefun-cooking-game-20261125/rank.svg)](https://make.fun/bounty/best-cooking-game-20261125-0137)
-[![reward](https://make.fun/badge/mrpseudonym404/makefun-cooking-game-20261125/reward.svg)](https://make.fun/bounty/best-cooking-game-20261125-0137)
+[![rank](https://make.fun/badge/best-cooking-game-20261125-0137/mrpseudonym404/makefun-cooking-game-20261125/rank.svg)](https://make.fun/bounty/best-cooking-game-20261125-0137)
+[![reward](https://make.fun/badge/best-cooking-game-20261125-0137/mrpseudonym404/makefun-cooking-game-20261125/reward.svg)](https://make.fun/bounty/best-cooking-game-20261125-0137)
 
 A night-market es campur stall, built for the [make.fun best cooking game bounty](https://make.fun/bounty/best-cooking-game-20261125-0137). Not another burger joint: a cold dessert kiosk under string lights, where every order is a bowl of shaved ice that has to be built topping by topping before the shift ends.
 
